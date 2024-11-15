@@ -62,5 +62,6 @@ func main() {
 	api.POST("/projects", projectHandler.CreateProject)
 
 	// Start the server
-	e.Logger.Fatal(e.Start(":8080"))
+
+	e.Logger.Fatal(e.Start(":" + cfg.PORT))
 }
