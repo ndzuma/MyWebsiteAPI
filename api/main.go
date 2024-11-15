@@ -45,6 +45,13 @@ func main() {
 	e.File("/admin", "web/admin.html")
 
 	api := e.Group("/api")
+
+	// Health check
+	api.GET("/ping", func(c echo.Context) error {
+		return c.String(200, "Erthang's working just fine!")
+	})
+
+	// Basic auth middleware
 	api.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
 		// Be careful to use constant time comparison to prevent timing attacks
 		if subtle.ConstantTimeCompare([]byte(username), []byte(cfg.APIUsername)) == 1 && subtle.ConstantTimeCompare([]byte(password), []byte(cfg.APIPassword)) == 1 {
