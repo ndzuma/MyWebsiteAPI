@@ -10,6 +10,31 @@ type Config struct {
 	APIUsername string
 	APIPassword string
 	JwtSecret   string
+	PORT        string
+}
+
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	return port
+}
+
+func getAPIUsername() string {
+	username := os.Getenv("API_USERNAME")
+	if username == "" {
+		username = "admin"
+	}
+	return username
+}
+
+func getAPIPassword() string {
+	password := os.Getenv("API_PASSWORD")
+	if password == "" {
+		password = "password"
+	}
+	return password
 }
 
 func Load() (*Config, error) {
@@ -19,8 +44,9 @@ func Load() (*Config, error) {
 	}
 	return &Config{
 		DatabaseUrl: os.Getenv("DATABASE_PUBLIC_URL"),
-		APIUsername: os.Getenv("API_USERNAME"),
-		APIPassword: os.Getenv("API_PASSWORD"),
+		APIUsername: getAPIUsername(),
+		APIPassword: getAPIPassword(),
 		JwtSecret:   os.Getenv("JWT_SECRET"),
+		PORT:        getPort(),
 	}, nil
 }
