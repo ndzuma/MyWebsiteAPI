@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/subtle"
-	"fmt"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -18,16 +17,11 @@ type jwtCustomClaims struct {
 }
 
 func main() {
-	fmt.Println("Starting website API...")
-
 	// Load .env file
 	cfg, err := config.Load()
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
 	}
-	fmt.Println(cfg.JwtSecret)
-	fmt.Println(cfg.APIUsername)
-	fmt.Println(cfg.APIPassword)
 
 	// Connect to database
 	db, err := database.NewDB(cfg.DatabaseUrl)
