@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"github.com/joho/godotenv"
 	"os"
 )
@@ -38,10 +39,22 @@ func getAPIPassword() string {
 }
 
 func Load() (*Config, error) {
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
+	mode := os.Getenv("MODE")
+	if mode == "" {
+		mode = "dev"
 	}
+
+	var err error
+	if mode == "prod" {
+		err = godotenv.Load("ENV")
+	} else {
+		err = godotenv.Load(".env")
+	}
+
+	if err != nil && mode != "prod" {
+		return nil, fmt.Errorf("error loading env file: %w", err)
+	}
+
 	return &Config{
 		DatabaseUrl: os.Getenv("DATABASE_PUBLIC_URL"),
 		APIUsername: getAPIUsername(),
