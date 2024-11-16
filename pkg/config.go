@@ -38,12 +38,7 @@ func getAPIPassword() string {
 	return password
 }
 
-func Load() (*Config, error) {
-	mode := os.Getenv("MODE")
-	if mode == "" {
-		mode = "dev"
-	}
-
+func loadEnvironmentVariables(mode string) error {
 	var err error
 	if mode == "prod" {
 		err = godotenv.Load("ENV")
@@ -52,11 +47,30 @@ func Load() (*Config, error) {
 	}
 
 	if err != nil && mode != "prod" {
+		return err
+	}
+	return nil
+}
+
+func Load() (*Config, error) {
+	mode := os.Getenv("MODE")
+	if mode == "" {
+		mode = "dev"
+	}
+
+	err := loadEnvironmentVariables(mode)
+	if err != nil {
 		return nil, fmt.Errorf("error loading env file: %w", err)
+	}
+	var databaseUrl string
+	if mode == "prod" {
+		databaseUrl = os.Getenv("DATABASE_URL")
+	} else {
+		databaseUrl = os.Getenv("DATABASE_PUBLIC_URL")
 	}
 
 	return &Config{
-		DatabaseUrl: os.Getenv("DATABASE_PUBLIC_URL"),
+		DatabaseUrl: databaseUrl,
 		APIUsername: getAPIUsername(),
 		APIPassword: getAPIPassword(),
 		JwtSecret:   os.Getenv("JWT_SECRET"),
