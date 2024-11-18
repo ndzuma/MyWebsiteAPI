@@ -26,6 +26,7 @@ type Project struct {
 type ProjectList struct {
 	ID         int    `db:"id" json:"id"`
 	Name       string `db:"name" json:"name"`
+	Type       string `db:"type" json:"type"`
 	MainImage  string `db:"main_image" json:"main_image"`
 	InProgress *bool  `db:"in_progress" json:"in_progress"`
 	BGColor    string `db:"bg_color" json:"bg_color"`

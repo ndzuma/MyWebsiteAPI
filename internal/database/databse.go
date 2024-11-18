@@ -43,7 +43,7 @@ func (db *DB) GetProjects(ctx context.Context) ([]models.Project, error) {
 }
 
 func (db *DB) GetProjectList(ctx context.Context) ([]models.ProjectList, error) {
-	query := `select id, name, main_image, in_progress, bg_color, text_color from projects`
+	query := `select id, name,"type",  main_image, in_progress, bg_color, text_color from projects`
 	rows, err := db.pool.Query(ctx, query)
 	if err != nil {
 		return nil, fmt.Errorf("failed to query project list: %w", err)
