@@ -64,5 +64,5 @@ func main() {
 
 	// Start the server
 
-	e.Logger.Fatal(e.Start(":" + cfg.PORT))
+	e.Logger.Fatal(e.Start("::" + cfg.PORT))
 }
