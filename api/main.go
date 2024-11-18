@@ -63,6 +63,6 @@ func main() {
 	api.POST("/projects", projectHandler.CreateProject)
 
 	// Start the server
-
-	e.Logger.Fatal(e.Start("::" + cfg.PORT))
+	address := "0.0.0.0:" + cfg.PORT
+	e.Logger.Fatal(e.Start(address))
 }
