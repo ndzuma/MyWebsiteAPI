@@ -24,9 +24,10 @@ type Project struct {
 }
 
 type ProjectList struct {
-	ID        int    `db:"id" json:"id"`
-	Name      string `db:"name" json:"name"`
-	MainImage string `db:"main_image" json:"main_image"`
-	BGColor   string `db:"bg_color" json:"bg_color"`
-	TextColor string `db:"text_color" json:"text_color"`
+	ID         int    `db:"id" json:"id"`
+	Name       string `db:"name" json:"name"`
+	MainImage  string `db:"main_image" json:"main_image"`
+	InProgress *bool  `db:"in_progress" json:"in_progress"`
+	BGColor    string `db:"bg_color" json:"bg_color"`
+	TextColor  string `db:"text_color" json:"text_color"`
 }
