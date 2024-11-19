@@ -132,18 +132,17 @@
         .new-project-form button.create-button {
             background-color: #4CAF50;
         }
-        <style>
-             /* Add these styles to your existing CSS */
-         .input-field, .textarea-field {
-             width: 100%;
-             padding: 8px 12px;
-             margin-bottom: 10px;
-             background-color: #1A1A1A;
-             border: 1px solid #333;
-             border-radius: 5px;
-             color: #f9f9f9;
-             font-size: 14px;
-         }
+         /* Add these styles to your existing CSS */
+        .input-field, .textarea-field {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            background-color: #1A1A1A;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: #f9f9f9;
+            font-size: 14px;
+        }
 
         .textarea-field {
             min-height: 100px;
@@ -306,7 +305,9 @@
         <ul class='project-list'>
             <li v-for='project in projects' :key='project.id' class='project-item'>
                 <div class='project-header'>
-                    <strong>{{ project.name }}</strong> - {{ project.type }}
+                    <div>
+                        <strong>{{ project.name }}</strong> - {{ project.type }}
+                    </div>
                     <div class='project-actions'>
                         <button @click="toggleDetails(project.id)" class="info-button">
                             {{ isDetailOpen(project.id) ? 'Hide' : 'More Info' }}
@@ -354,11 +355,11 @@
                                 <input type="text" v-model="project.project_url" placeholder="Project URL" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label>Year:</label>
+                                <label>Year*:</label>
                                 <input type="number" v-model.number="project.year" placeholder="Year" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label>dev Time:</label>
+                                <label>dev Time*:</label>
                                 <input type="text" v-model="project.dev_time" placeholder="Development Time" class="input-field">
                             </div>
                             <div class="form-group">
@@ -366,7 +367,7 @@
                                 <input type="text" v-model="project.technologies" placeholder="Technologies" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label>Main Image URL:</label>
+                                <label>Main Image URL*:</label>
                                 <input type="text" v-model="project.main_image" placeholder="Main Image URL" class="input-field">
                             </div>
                             <div class="form-group">
@@ -374,7 +375,7 @@
                                 <input type="text" v-model="project.secondary_image" placeholder="Secondary Image URL" class="input-field">
                             </div>
                             <div class="form-group">
-                                <label>Overview:</label>
+                                <label>Overview*:</label>
                                 <textarea v-model="project.overview" placeholder="Overview" class="textarea-field"></textarea>
                             </div>
                             <div class="form-group">
