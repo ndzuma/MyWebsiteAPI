@@ -10,20 +10,26 @@ import (
 	"website-api/internal/models"
 )
 
+type CacheKeys struct {
+	AllProjects, ProjectList, Project string
+}
+
 type ProjectHandler struct {
-	db    *database.DB
-	cache *cache.Cache
+	db       *database.DB
+	cache    *cache.Cache
+	cacheKey CacheKeys
 }
 
 func NewProjectHandler(db *database.DB) *ProjectHandler {
 	return &ProjectHandler{
-		db:    db,
-		cache: cache.New(5*time.Minute, 10*time.Minute),
+		db:       db,
+		cache:    cache.New(5*time.Minute, 10*time.Minute),
+		cacheKey: CacheKeys{"all_projects", "project_list", "project"},
 	}
 }
 
 func (ph *ProjectHandler) GetProjects(ctx echo.Context) error {
-	cacheKey := "all_projects"
+	cacheKey := ph.cacheKey.AllProjects
 	if cachedProjects, found := ph.cache.Get(cacheKey); found {
 		return ctx.JSON(http.StatusOK, cachedProjects)
 	}
@@ -37,7 +43,7 @@ func (ph *ProjectHandler) GetProjects(ctx echo.Context) error {
 }
 
 func (ph *ProjectHandler) GetProjectList(ctx echo.Context) error {
-	cacheKey := "project_list"
+	cacheKey := ph.cacheKey.ProjectList
 	if cachedProjects, found := ph.cache.Get(cacheKey); found {
 		return ctx.JSON(http.StatusOK, cachedProjects)
 	}
@@ -71,6 +77,15 @@ func (ph *ProjectHandler) EditProject(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to edit project"})
 	}
 
+	// Clear cache
+	if _, found := ph.cache.Get(ph.cacheKey.AllProjects); found {
+		log.Printf("Deleting cache key: %v", ph.cacheKey.AllProjects)
+		ph.cache.Delete(ph.cacheKey.AllProjects)
+	}
+	if _, found := ph.cache.Get(ph.cacheKey.ProjectList); found {
+		log.Printf("Deleting cache key: %v", ph.cacheKey.AllProjects)
+		ph.cache.Delete(ph.cacheKey.ProjectList)
+	}
 	return c.JSON(http.StatusOK, map[string]string{"message": "Project updated successfully"})
 }
 
@@ -85,6 +100,13 @@ func (ph *ProjectHandler) DeleteProject(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to delete project"})
 	}
 
+	// Clear cache
+	if _, found := ph.cache.Get(ph.cacheKey.AllProjects); found {
+		ph.cache.Delete(ph.cacheKey.AllProjects)
+	}
+	if _, found := ph.cache.Get(ph.cacheKey.ProjectList); found {
+		ph.cache.Delete(ph.cacheKey.ProjectList)
+	}
 	return c.JSON(http.StatusOK, map[string]string{"message": "Project deleted successfully"})
 }
 
@@ -100,5 +122,12 @@ func (ph *ProjectHandler) CreateProject(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to create project"})
 	}
 
+	// Clear cache
+	if _, found := ph.cache.Get(ph.cacheKey.AllProjects); found {
+		ph.cache.Delete(ph.cacheKey.AllProjects)
+	}
+	if _, found := ph.cache.Get(ph.cacheKey.ProjectList); found {
+		ph.cache.Delete(ph.cacheKey.ProjectList)
+	}
 	return c.JSON(http.StatusCreated, map[string]string{"message": "Project created successfully"})
 }
