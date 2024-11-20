@@ -49,13 +49,14 @@ MODE=pro/dev
 
 ## Future Improvements 🎯
 
+*Note: Everything labelled "for fun" is primarily for learning purposes, the API works well enough to fit my needs.*
+
 Some areas I'm looking to improve:
 
 ### Security 🔒
 - [ ] Switch from Basic Auth to JWT
 - [ ] Add rate limiting
 - [ ] Implement request validation
-- [ ] Add CORS configuration
 - [ ] Implement proper password hashing
 
 ### Testing 🧪
@@ -69,12 +70,11 @@ Some areas I'm looking to improve:
 ### Features 🌟
 - [x] Implement caching layer for faster responses
 - [ ] Add comprehensive logging system (extremely needed)
-- [ ] Add image upload support (Cloudinary integration, because they have generous free tier)
+- [ ] Add image upload support (Cloudinary integration, because they have a generous free tier)
 - [ ] Create automated backup strategy (for fun)
 
 ### Code Quality 📝
 - [ ] Add more comprehensive error handling
-- [ ] Implement request validation middleware
 - [ ] Add code documentation
 - [ ] Implement proper logging levels
 
@@ -97,5 +97,3 @@ Some areas I'm looking to improve:
     ```
 
 *Note: This API is currently in active development. Features and endpoints may change.*\
-*Note: Everything labelled "for fun" is primarily for learning purposes, the API works well enough to fit my needs.*
-
